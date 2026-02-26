@@ -1,0 +1,36 @@
+name: Rust
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        platform: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Packages
+        if: ${{ matrix.platform == 'ubuntu-latest' }}
+        run: sudo apt-get update && sudo apt-get install -y libudev-dev llvm squashfs-tools
+      - name: Build
+        run: cargo build -r
+      - name: Upload
+        uses: actions/upload-artifact@v7.0.0
+        with:
+          name: ${{ matrix.platform }}
+          path: |
+            target/release/usc*
+            target/release/libusc*
+            !target/release/*.d
+            !target/release/*.pdb
+            !target/release/*.exp
+            !target/release/*.lib
