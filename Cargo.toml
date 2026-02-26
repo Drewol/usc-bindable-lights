@@ -1,0 +1,16 @@
+[package]
+name = "usc-bindable-lights"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+hidlights = "0.1.2"
+eframe = "0.33.3"
+dirs = "6.0.0"
+strum = { version = "0.28.0", features = ["derive"] }
+itertools = "0.14.0"
+serde = { version = "1.0.228", features = ["derive"] }
+toml = "1.0.3"
